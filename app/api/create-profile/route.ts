@@ -36,8 +36,6 @@ export async function POST() {
 
         telefon: null,
 
-        oras: null,
-        judet: null,
       },
     });
 
