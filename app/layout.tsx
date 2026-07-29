@@ -4,7 +4,7 @@ import "./globals.css";
 //import NavBar from "../components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 //import { ReactQueryClientProvider } from "../components/react-query-client-provider";
-//import CreateProfileOnSignIn from "@/components/create-profile";
+import CreateProfileOnSignIn from "@/components/CreateProfileOnSignIn";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +33,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
+          <CreateProfileOnSignIn />
           {children}
         </ClerkProvider>
       </body>
