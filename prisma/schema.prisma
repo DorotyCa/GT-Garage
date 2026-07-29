@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Utilizator {
+  id        String   @id
+  email     String   @unique
+
+  rol       String   @default("client")
+
+  nume      String?
+  prenume   String?
+  telefon   String?
+  adresa    String?
+
+  dataInregistrarii DateTime @default(now())
+
+  masini     Masina[]
+  programari Programare[]
+
+  @@map("utilizatori")
+}
+
+model Serviciu {
+  id Int @id @default(autoincrement())
+
+  categorie String
+  denumire  String
+
+  descriere String?
+
+  durataEstimata Int
+
+  pretMin Decimal
+  pretMax Decimal
+
+  activ Boolean @default(true)
+
+  programari Programare[]
+
+  @@map("servicii")
+}
+
+model Masina {
+  id Int @id @default(autoincrement())
+
+  proprietarId String?
+
+  proprietar Utilizator? @relation(fields: [proprietarId], references: [id], onDelete: SetNull)
+
+  marca String
+  model String
+
+  anFabricatie Int?
+
+  combustibil String?
+  motorizare  String?
+
+  putereCp Int?
+
+  transmisie String?
+
+  culoare String?
+
+  vin String? @unique
+
+  numarInmatriculare String
+
+  kilometraj Int @default(0)
+
+  programari Programare[]
+
+  istoric IstoricService[]
+
+  @@map("masini")
+}
+
+model Programare {
+  id Int @id @default(autoincrement())
+
+  clientId String
+
+  client Utilizator @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  masinaId Int
+
+  masina Masina @relation(fields: [masinaId], references: [id], onDelete: Cascade)
+
+  serviciuId Int
+
+  serviciu Serviciu @relation(fields: [serviciuId], references: [id])
+
+  data DateTime
+
+  observatii String?
+
+  status String @default("In asteptare")
+
+  dataCrearii DateTime @default(now())
+
+  factura Factura?
+
+  @@map("programari")
+}
+
+model ProgramareBlocata {
+  id Int @id @default(autoincrement())
+
+  data DateTime
+
+  oraStart DateTime?
+
+  oraEnd DateTime?
+
+  motiv String @default("Service Inchis / Concediu")
+
+  dataCrearii DateTime @default(now())
+
+  @@map("programari_blocate")
+}
+
+model Factura {
+  id Int @id @default(autoincrement())
+
+  programareId Int? @unique
+
+  programare Programare? @relation(fields: [programareId], references: [id], onDelete: SetNull)
+
+  serie String @default("GTG")
+
+  numar String
+
+  dataEmitere DateTime @default(now())
+
+  subtotalManopera Decimal @default(0)
+
+  subtotalPiese Decimal @default(0)
+
+  discount Decimal @default(0)
+
+  tva Decimal @default(0)
+
+  total Decimal @db.Decimal(10, 2)
+
+  status String @default("Neplatita")
+
+  @@map("facturi")
+}
+
+model IstoricService {
+  id Int @id @default(autoincrement())
+
+  masinaId Int
+
+  masina Masina @relation(fields: [masinaId], references: [id], onDelete: Cascade)
+
+  programareId Int?
+
+  descriereReparatie String
+
+  observatiiSuplimentare String?
+
+  kilometrajLaReparatie Int
+
+  dataReparatie DateTime @default(now())
+
+  @@map("istoric_service")
+}
