@@ -1,7 +1,10 @@
+// app/components/ClientSidebar.tsx
+
 "use client";
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { SignOutButton } from "@clerk/nextjs";
 import { 
   LayoutDashboard, Car, Wrench, Calendar, 
   FileText, History, User, LogOut 
@@ -56,13 +59,13 @@ export default function ClientSidebar() {
         </nav>
       </div>
 
-      {/* LOGOUT BTN - Te duce la pagina principală publică */}
-      <Link href="/">
+      {/* LOGOUT BUTTON */}
+      <SignOutButton signOutOptions={{ redirectUrl: '/' }}>
         <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-red-500/80 hover:bg-red-500/5 hover:text-red-500 transition-all duration-200">
           <LogOut size={18} strokeWidth={1.5} />
-          Logout
+            Logout
         </button>
-      </Link>
+      </SignOutButton>
     </aside>
   );
 }

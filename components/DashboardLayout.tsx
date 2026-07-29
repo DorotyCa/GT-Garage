@@ -1,8 +1,11 @@
+// app/components/DashboardLayout.tsx
+
 "use client";
 
 import { useState } from "react";
 import Header from "./Header";
-import AdminSidebar from "./AdminSidebar";
+import AdminSidebar from "../components/AdminSidebar"; // Ajustează calea dacă e nevoie
+import ClientSidebar from "../components/ClientSidebar"; // Importăm și meniul de clienți!
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -23,7 +26,10 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen bg-[#080A0C]">
 
-      {sidebarOpen && <AdminSidebar />}
+      {/* REZOLVARE: Afișăm Sidebar-ul corect în funcție de rolul utilizatorului! */}
+      {sidebarOpen && (
+        user.rol === "client" ? <ClientSidebar /> : <AdminSidebar />
+      )}
 
       <div className="flex flex-col flex-1 overflow-hidden">
 

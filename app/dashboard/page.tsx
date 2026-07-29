@@ -1,3 +1,5 @@
+// app/dashboard/page.tsx
+
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -19,13 +21,13 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  if (utilizator.rol === "admin") {
+  if (utilizator.rol === "admin" || utilizator.rol === "mecanic") {
     redirect("/admin");
   }
 
-  if (utilizator.rol === "mecanic") {
-    redirect("/admin");
+  if (utilizator.rol === "client") {
+    redirect("/client");
   }
 
-  redirect("/client");
+   redirect("/");
 }
