@@ -35,7 +35,7 @@ export async function POST() {
         prenume: user.lastName ?? null,
 
         telefon: null,
-        adresa: null,
+
         oras: null,
         judet: null,
       },
