@@ -602,7 +602,7 @@ configured_origins = {
     if origin.strip() and origin.strip() != "*"
 }
 configured_origins.update(
-    {"http://localhost:3000", "http://127.0.0.1:3000"}
+    {"http://localhost:3000", "http://127.0.0.1:3000", "https://frontend-dx1nmhkvs-404-brain-not-found2.vercel.app"}
 )
 frontend_url = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
 if frontend_url:
