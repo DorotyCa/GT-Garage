@@ -142,6 +142,7 @@ export default function AdminDashboard() {
       await api.patch(`/admin/services/${svc.id}`, { 
         price_from: Number(svc.price_from), 
         duration_min: Number(svc.duration_min), 
+        duration_unit: svc.duration_unit || "minutes",
         active: svc.active,
         name: svc.name,
         tagline: svc.tagline
@@ -162,6 +163,7 @@ export default function AdminDashboard() {
         tagline: newServiceTagline || "Serviciu profesional",
         price_from: 0,
         duration_min: 30,
+        duration_unit: "minutes",
         active: true,
         slug: slug
       });
@@ -486,11 +488,8 @@ export default function AdminDashboard() {
 
              {/* Lista de servicii cu opțiune de editare text inline și ștergere */}
               {services.map((s, i) => {
-                // Verificăm dacă durata salvată în baza de date se împarte exact la 60 pentru a deduce dacă afișăm în Ore sau Minute
-                const isHoursInitial = s.duration_min >= 60 && s.duration_min % 60 === 0;
-                
-                // Folosim o stare locală pentru fiecare rând pentru a comuta între unitățile de măsură (Ore / Min)
-                // Dacă proiectul tău folosește stări globale, poți introduce pur și simplu un selector direct
+                const durationUnit = s.duration_unit || "minutes";
+                const displayedDuration = durationUnit === "hours" ? s.duration_min / 60 : s.duration_min;
                 
                 return (
                   <div key={s.id} data-testid={`admin-service-row-${s.slug}`} className="border border-carbon-600 bg-carbon-900 p-5 flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -526,17 +525,25 @@ export default function AdminDashboard() {
                     <div className="flex items-center bg-carbon-800 border border-carbon-600 px-2 py-1 gap-1">
                       <input
                         type="number"
-                        value={s.duration_min}
-                        onChange={(e) => setServices((arr) => arr.map((x) => (x.id === s.id ? { ...x, duration_min: Number(e.target.value) } : x)))}
+                        min="0"
+                        step={durationUnit === "hours" ? "any" : "1"}
+                        value={displayedDuration}
+                        onChange={(e) => {
+                          const value = Number(e.target.value);
+                          const duration_min = Math.round(durationUnit === "hours" ? value * 60 : value);
+                          setServices((arr) => arr.map((x) => (x.id === s.id ? { ...x, duration_min } : x)));
+                        }}
                         data-testid={`admin-service-duration-${s.slug}`}
                         className="w-16 bg-transparent font-mono text-xs text-slate-100 px-1 py-1 focus:outline-none"
                       />
                       <select
-                        value={s.notes === "hours" ? "hours" : "mins"}
-                        onChange={(e) => setServices((arr) => arr.map((x) => (x.id === s.id ? { ...x, notes: e.target.value } : x)))}
+                        value={durationUnit}
+                        onChange={(e) => setServices((arr) => arr.map((x) => (
+                          x.id === s.id ? { ...x, duration_unit: e.target.value } : x
+                        )))}
                         className="bg-carbon-900 border-none text-[10px] font-mono text-slate-400 uppercase tracking-wider py-1 cursor-pointer focus:outline-none"
                       >
-                        <option value="mins">Min.</option>
+                        <option value="minutes">Min.</option>
                         <option value="hours">Ore</option>
                       </select>
                     </div>

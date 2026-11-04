@@ -10,7 +10,7 @@ import time
 import uuid
 import logging
 from datetime import datetime, timezone, timedelta
-from typing import Optional
+from typing import Literal, Optional
 from zoneinfo import ZoneInfo
 
 import bcrypt
@@ -210,6 +210,7 @@ class ServiceUpdate(BaseModel):
     tagline: Optional[str] = None
     price_from: Optional[float] = None
     duration_min: Optional[int] = None
+    duration_unit: Optional[Literal["minutes", "hours"]] = None
     active: Optional[bool] = None
     description: Optional[str] = None
 
@@ -219,6 +220,7 @@ class ServiceCreate(BaseModel):
     tagline: str = "Serviciu profesional"
     price_from: float = 0
     duration_min: int = 30
+    duration_unit: Literal["minutes", "hours"] = "minutes"
     active: bool = True
     slug: str
 
