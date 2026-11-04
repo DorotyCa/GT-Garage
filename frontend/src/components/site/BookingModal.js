@@ -162,7 +162,10 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                 <>
                   {step === 1 && (
                     <div data-testid="booking-step-service-select" className="space-y-3">
-                      <p className={LABEL_CLS}>Alege un serviciu</p>
+                      <div>
+                        <p className={LABEL_CLS}>Alege un serviciu</p>
+                        <p className="font-mono text-[10px] text-slate-500">Prețurile sunt orientative.</p>
+                      </div>
                       {services.map((s) => (
                         <button
                           key={s.id}
