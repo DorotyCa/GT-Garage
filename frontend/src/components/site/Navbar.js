@@ -26,10 +26,10 @@ export const Navbar = ({ onBook, onLogout }) => {
         scrolled ? "bg-carbon-950/85 backdrop-blur-md border-b border-carbon-600" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
         <a href="#top" data-testid="nav-home-link" className="flex items-center gap-3 group">
-          <LogoMark size={34} />
-          <div className="leading-none">
+          <LogoMark size={32} />
+          <div className="hidden sm:block leading-none">
             <span className="font-display font-extrabold text-xl tracking-wide uppercase">Auto Service</span>
             <span className="block font-mono text-[10px] tracking-[0.3em] text-slate-500 uppercase mt-0.5">Îngrijim mașina ta</span>
           </div>
@@ -46,15 +46,17 @@ export const Navbar = ({ onBook, onLogout }) => {
             </a>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {user?.role !== "admin" && (
             <button
               type="button"
               onClick={onLogout}
               data-testid="nav-logout-button"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-400 hover:text-slate-100 border border-carbon-600 hover:border-slate-400 px-4 py-2.5 transition-colors duration-250"
+              aria-label="Deconectare"
+              title="Deconectare"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-400 hover:text-slate-100 border border-carbon-600 hover:border-slate-400 px-3 sm:px-4 py-2.5 whitespace-nowrap transition-colors duration-250"
             >
-              <LogOut size={14} /> Deconectare
+              <LogOut size={14} /> <span className="hidden sm:inline">Deconectare</span>
             </button>
           )}
           {user?.role === "admin" && (
@@ -71,17 +73,20 @@ export const Navbar = ({ onBook, onLogout }) => {
               type="button"
               onClick={onLogout}
               data-testid="nav-admin-logout-button"
-              className="inline-flex items-center gap-2 bg-kinetic text-white font-display font-bold uppercase tracking-wider text-sm px-5 py-2.5 hover:bg-red-500 hover:-translate-y-0.5 transition-all duration-250"
+              aria-label="Deconectare"
+              title="Deconectare"
+              className="inline-flex items-center gap-2 bg-kinetic text-white font-display font-bold uppercase tracking-wider text-sm px-3 sm:px-5 py-2.5 whitespace-nowrap hover:bg-red-500 hover:-translate-y-0.5 transition-all duration-250"
             >
-              <LogOut size={14} /> Deconectare
+              <LogOut size={14} /> <span className="hidden sm:inline">Deconectare</span>
             </button>
           ) : (
             <button
               onClick={() => onBook(null)}
               data-testid="nav-booking-link"
-              className="bg-kinetic text-white font-display font-bold uppercase tracking-wider text-sm px-5 py-2.5 hover:bg-red-500 hover:-translate-y-0.5 transition-all duration-250"
+              className="bg-kinetic text-white font-display font-bold uppercase tracking-wider text-xs sm:text-sm px-3 sm:px-5 py-2.5 whitespace-nowrap hover:bg-red-500 hover:-translate-y-0.5 transition-all duration-250"
             >
-              Programează-te
+              <span className="sm:hidden">Programare</span>
+              <span className="hidden sm:inline">Programează-te</span>
             </button>
           )}
         </div>

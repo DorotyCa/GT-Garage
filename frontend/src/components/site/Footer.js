@@ -14,13 +14,13 @@ export const Footer = () => {
 
   return (
   <footer data-testid="site-footer" className="border-t border-carbon-600 bg-carbon-900">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
-      <div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8 sm:gap-10">
+      <div className="col-span-2 md:col-span-1">
         <div className="flex items-center gap-3">
           <LogoMark size={30} />
           <span className="font-display font-extrabold text-lg uppercase tracking-wide">GT-Garage</span>
         </div>
-        <p className="mt-4 text-sm text-slate-500 leading-relaxed max-w-xs">
+        <p className="mt-3 sm:mt-4 text-sm text-slate-500 leading-relaxed max-w-xs">
          Servicii profesionale de vulcanizare rapidă și detailing auto. Treabă făcută cu grijă pentru mașina ta.
         </p>
       </div>
@@ -45,7 +45,7 @@ export const Footer = () => {
         </div>
       </div>
     </div>
-    <div className="border-t border-carbon-600 py-5 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-slate-600">
+    <div className="border-t border-carbon-600 px-4 py-5 text-center font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.3em] text-slate-600">
       © 2016 GT-Garage Atelier auto /// Toată forța, rezervată
     </div>
   </footer>
