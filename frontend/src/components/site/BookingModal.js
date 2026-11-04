@@ -10,6 +10,13 @@ const LABEL_CLS = "block font-mono text-[10px] uppercase tracking-[0.25em] text-
 const toLocalDateString = (date) => (
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
 );
+const formatServicePrice = (price) => {
+  if (price === 0 || (typeof price === "string" && price.trim() !== "" && Number(price) === 0)) {
+    return "Nespecificat";
+  }
+  if (price?.toString().toLowerCase().includes("discutabil") || price === "-") return price;
+  return `${price} RON`;
+};
 
 export const BookingModal = ({ open, onClose, presetService }) => {
   const [step, setStep] = useState(1);
@@ -168,9 +175,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 mt-1">{s.tagline}</div>
                           </div>
                           <div className="font-mono text-xs text-gold whitespace-nowrap">
-                            {s.price_from?.toString().toLowerCase().includes("discutabil") || s.price_from === "-" 
-                              ? s.price_from 
-                              : `${s.price_from} RON`}
+                            {formatServicePrice(s.price_from)}
                           </div>
                         </button>
                       ))}
@@ -180,7 +185,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                   {step === 2 && service && (
                     <div className="space-y-6">
                       <div className="border border-carbon-600 bg-carbon-800 px-4 py-3 font-mono text-xs uppercase tracking-[0.2em] text-slate-300">
-                        {service.name} · {service.price_from?.toString().toLowerCase().includes("discutabil") || service.price_from === "-" ? service.price_from : `${service.price_from} RON`}
+                        {service.name} · {formatServicePrice(service.price_from)}
                       </div>
                       <div>
                         <label className={LABEL_CLS}>Data preferată</label>
@@ -283,7 +288,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                         <input type="email" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="email@exemplu.ro" data-testid="booking-input-email" className={INPUT_CLS} />
                       </div>
                       <div className="border border-carbon-600 bg-carbon-800 p-4 font-mono text-xs text-slate-400 space-y-1.5">
-                        <div><span className="text-slate-500">SERVICIU:</span> {service.name} ({service.price_from?.toString().toLowerCase().includes("discutabil") || service.price_from === "-" ? service.price_from : `${service.price_from} RON`})</div>
+                        <div><span className="text-slate-500">SERVICIU:</span> {service.name} ({formatServicePrice(service.price_from)})</div>
                         <div><span className="text-slate-500">PROGRAMARE:</span> {date} · {slot}</div>
                         <div><span className="text-slate-500">MAȘINĂ:</span> {vehicle.make} {vehicle.model} ({vehicle.year})</div>
                         <div><span className="text-slate-500">NR. INMATRICULARE:</span> {vehicle.mileage}</div>
