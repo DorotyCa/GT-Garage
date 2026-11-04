@@ -1,0 +1,115 @@
+{
+  "brand_identity": {
+    "name": "TORQUEHAUS — Auto Atelier",
+    "tagline": "Precision Engineering meets Automotive Artistry",
+    "vibe": "Dark cinematic garage aesthetic, high-performance automotive craftsmanship, tactical minimalism, luxury atelier atmosphere",
+    "target_audience": "Exotic car owners, high-performance auto enthusiasts, luxury car drivers seeking bespoke maintenance, performance tuning, and master detailing"
+  },
+  "color_palette": {
+    "mode": "dark",
+    "base_background": "#090A0C",
+    "surface_dark": "#121418",
+    "surface_card": "#181B20",
+    "surface_elevated": "#22262E",
+    "border_subtle": "#2A2F38",
+    "border_accent": "rgba(239, 68, 68, 0.4)",
+    "primary_kinetic_red": "#FF3333",
+    "primary_red_glow": "rgba(255, 51, 51, 0.25)",
+    "accent_amber_gold": "#D4AF37",
+    "text_primary": "#F1F5F9",
+    "text_secondary": "#94A3B8",
+    "text_muted": "#64748B",
+    "css_variables": {
+      "--bg-main": "#090A0C",
+      "--bg-surface": "#121418",
+      "--bg-card": "#181B20",
+      "--border-color": "#2A2F38",
+      "--color-primary": "#FF3333",
+      "--color-accent": "#D4AF37",
+      "--color-text-main": "#F1F5F9",
+      "--color-text-muted": "#94A3B8"
+    }
+  },
+  "typography": {
+    "heading_font": "Barlow Condensed, sans-serif",
+    "body_font": "Plus Jakarta Sans, sans-serif",
+    "mono_font": "JetBrains Mono, monospace",
+    "google_fonts_import": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap",
+    "font_hierarchy": {
+      "hero_h1": "text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight uppercase leading-[0.9]",
+      "section_h2": "text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight uppercase text-slate-100",
+      "card_h3": "text-xl sm:text-2xl font-bold uppercase tracking-wide text-slate-100",
+      "subtitle": "text-base sm:text-lg text-slate-400 font-normal leading-relaxed",
+      "mono_label": "font-mono text-xs uppercase tracking-[0.25em] text-red-500 font-semibold"
+    }
+  },
+  "layout_system": {
+    "spacing_scale": "Generous spacing. Section paddings: py-20 to py-32. Container max-width: max-w-7xl px-4 sm:px-6 lg:px-8",
+    "grid_modes": {
+      "bento_marketing": "grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8",
+      "dashboard_admin": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    },
+    "border_rules": "Use 1px borders with dark tinted colors ('border-[#2A2F38]'). Cards must use internal padding 'p-6 md:p-8' to prevent content collisions."
+  },
+  "motion_language": {
+    "scroll_behavior": "Lenis smooth scrolling for luxury editorial momentum",
+    "hero_reveal": "Masked line-by-line reveal using Framer Motion y-axis slide from 100% to 0% overflow-hidden wrappers",
+    "hover_effects": "Card lift translateY(-4px), subtle red border highlight transition (duration 250ms), image zoom scale-105 transition ease-out",
+    "marquee": "Slow drifting infinite horizontal marquee using react-fast-marquee or framer-motion for brand ethos and stats"
+  },
+  "logo_mark_concept": {
+    "name": "TORQUEHAUS SVG Mark",
+    "description": "Minimalist geometric piston & hex-nut stencil icon combined with sharp architectural typography",
+    "svg_markup": "<svg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M20 4L33.8564 12V28L20 36L6.14359 28V12L20 4Z' stroke='#FF3333' stroke-width='2.5'/><circle cx='20' cy='20' r='6' stroke='#F1F5F9' stroke-width='2.5'/><path d='M20 8V14M20 26V32M8 20H14M26 20H32' stroke='#FF3333' stroke-width='2' stroke-linecap='round'/></svg>"
+  },
+  "image_urls": {
+    "hero_background": "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwzfHxzcG9ydHMlMjBjYXIlMjBkYXJrJTIwZ2FyYWdlJTIwc3BvdGxpZ2h0JTIwbHV4dXJ5fGVufDB8fHx8MTc5MzMwNjkzNXww&ixlib=rb-4.1.0&q=85",
+    "hero_alt": "https://images.unsplash.com/photo-1645400379459-f6fd3d963fd4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHw0fHxzcG9ydHMlMjBjYXIlMjBkYXJrJTIwZ2FyYWdlJTIwc3BvdGxpZ2h0JTIwbHV4dXJ5fGVufDB8fHx8MTc5MzMwNjkzNXww&ixlib=rb-4.1.0&q=85",
+    "service_engine_repair": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjV8MHwxfHNlYXJjaHwxfHxjYXIlMjBlbmdpbmUlMjBtZWNoYW5pYyUyMGNsb3NlJTIwdXAlMjBkZXRhaWx8ZW58MHx8fHwxNzkzMzA2OTM1fDA&ixlib=rb-4.1.0&q=85",
+    "service_performance_tuning": "https://images.unsplash.com/photo-1597986085138-7731f2566f5f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjV8MHwxfHNlYXJjaHw0fHxjYXIlMjBlbmdpbmUlMjBtZWNoYW5pYyUyMGNsb3NlJTIwdXAlMjBkZXRhaWx8ZW58MHx8fHwxNzkzMzA2OTM1fDA&ixlib=rb-4.1.0&q=85",
+    "service_detailing": "https://images.unsplash.com/photo-1708805282695-ef186db20192?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4Nj66NzV8MHwxfHNlYXJjaHwxfHxjYXIlMjBkZXRhaWxpbmclMjBwb2xpc2glMjBjZXJhbWljJTIwY29hdGluZyUyMHdvcmtzaG9wfGVufDB8fHx8MTc5MzMwNjkzNXww&ixlib=rb-4.1.0&q=85",
+    "service_brake_wheel": "https://images.unsplash.com/photo-1708805283017-c662be2c7a44?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4Nj66NzV8MHwxfHNlYXJjaHw0fHxjYXIlMjBkZXRhaWxpbmclMjBwb2xpc2glMjBjZXJhbWljJTIwY29hdGluZyUyMHdvcmtzaG9wfGVufDB8fHx8MTc5MzMwNjkzNXww&ixlib=rb-4.1.0&q=85",
+    "workshop_ambient": "https://images.unsplash.com/photo-1567808291548-fc3ee04dbcf0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwxfHxzcG9ydHMlMjBjYXIlMjBkYXJrJTIwZ2FyYWdlJTIwc3BvdGxpZ2h0JTIwbHV4dXJ5fGVufDB8fHx8MTc5MzMwNjkzNXww&ixlib=rb-4.1.0&q=85"
+  },
+  "component_guidelines": {
+    "header_nav": "Sticky glassmorphism navigation header with backdrop-blur-md bg-[#090A0C]/80 border-b border-[#2A2F38]. Includes logo, nav items (Services, Atelier, Booking, Contact), Admin access button, and 'Book Appointment' primary CTA.",
+    "hero_section": "Dark cinematic hero with spotlight image overlay. Overlay gradient: 'bg-gradient-to-t from-[#090A0C] via-[#090A0C]/70 to-transparent'. Feature kinetic typography with staggered reveal lines, stats counter bento badge, and direct trigger for online booking modal/section.",
+    "services_showcase": "Asymmetrical 12-column Bento Grid showcasing 5 core services: 1. ECU Diagnostics & Tuning (Hero Card col-span-8), 2. Master Engine Overhaul (col-span-4), 3. High Performance Braking & Suspension (col-span-4), 4. Bespoke Ceramic Detailing (col-span-4), 5. Precision Wheel Alignment & Tires (col-span-4). Includes interactive filter and modal detail views.",
+    "appointment_booking": "Interactive multi-step online booking workflow: Step 1 (Select Service & Package), Step 2 (Pick Preferred Date & Time Slot), Step 3 (Vehicle Specs: Make, Model, Year, Mileage, Vin/Notes), Step 4 (Customer Details & Instant Confirmation with Reference ID). Saves directly to backend/localStorage.",
+    "enquiry_form": "Sleek contact form with fields for Name, Email, Phone, Vehicle Details, and Message. Submissions saved to admin database with instant status feedback using Sonner toast.",
+    "marquee_banner": "Slow moving editorial marquee with high-contrast text and stats: 'PRECISION TUNING /// MASTER DETAILING /// GERMAN & ITALIAN EXOTICS /// CERTIFIED ATELIER TECHNICIANS /// Bespoke Service since 2018'.",
+    "admin_dashboard": "Protected admin portal with simulated login (Username: admin, Pass: torque2026). Features 3 core tabs: 1. Bookings Management (filter by status, confirm/cancel, view vehicle info), 2. Enquiries Inbox (mark read, respond status), 3. Services Manager (edit price, status, duration). Uses dense dashboard grid with statistics metrics."
+  },
+  "data_testid_requirements": [
+    "nav-home-link",
+    "nav-services-link",
+    "nav-booking-link",
+    "nav-contact-link",
+    "nav-admin-login-button",
+    "hero-book-now-button",
+    "service-card-ecu-tuning",
+    "service-card-engine",
+    "service-card-detailing",
+    "service-card-brakes",
+    "booking-step-service-select",
+    "booking-step-date-picker",
+    "booking-step-time-slot",
+    "booking-input-make-model",
+    "booking-submit-button",
+    "booking-confirmation-modal",
+    "contact-form-name-input",
+    "contact-form-email-input",
+    "contact-form-phone-input",
+    "contact-form-message-input",
+    "contact-form-submit-button",
+    "admin-login-username-input",
+    "admin-login-password-input",
+    "admin-login-submit-button",
+    "admin-tab-bookings",
+    "admin-tab-enquiries",
+    "admin-tab-services",
+    "admin-booking-status-badge",
+    "admin-enquiry-reply-button"
+  ],
+  "instructions_to_main_agent": "Ensure all interactive elements have data-testid attributes. Implement smooth animations with Framer Motion and Sonner for toasts. Do not use Inter or generic default fonts. Maintain high dark-mode contrast with kinetic red highlights (#FF3333)."
+}
