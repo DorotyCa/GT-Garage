@@ -20,6 +20,14 @@ from bson.errors import InvalidId
 from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, BackgroundTasks
 
 from email_utils import notify_booking, notify_enquiry
+from field_encryption import (
+    BOOKING_ENCRYPTED_FIELDS,
+    ENCRYPTION_VERSION_FIELD,
+    ENQUIRY_ENCRYPTED_FIELDS,
+    decrypt_fields,
+    encrypt_fields,
+    validate_encryption_key,
+)
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field, field_validator
@@ -149,6 +157,7 @@ def parse_object_id(value: str, detail: str) -> ObjectId:
 def serialize(doc: dict) -> dict:
     doc = dict(doc)
     doc["id"] = str(doc.pop("_id"))
+    doc.pop(ENCRYPTION_VERSION_FIELD, None)
     return doc
 
 
@@ -175,8 +184,8 @@ class BookingCreate(BaseModel):
     time_slot: str
     vehicle_make: str
     vehicle_model: str
+    vehicle_plate: str
     vehicle_year: str
-    mileage: Optional[str] = ""
     notes: Optional[str] = ""
     name: str
     email: EmailStr
@@ -384,7 +393,7 @@ async def create_booking(input: BookingCreate, background_tasks: BackgroundTasks
     doc["reference"] = "TQ-" + uuid.uuid4().hex[:6].upper()
     doc["status"] = "pending"
     doc["created_at"] = datetime.now(timezone.utc)
-    result = await db.bookings.insert_one(doc)
+    result = await db.bookings.insert_one(encrypt_fields(doc, BOOKING_ENCRYPTED_FIELDS))
     doc["id"] = str(result.inserted_id)
     doc.pop("_id", None)
     background_tasks.add_task(notify_booking, {**doc, "created_at": doc["created_at"].isoformat()})
@@ -396,7 +405,7 @@ async def create_enquiry(input: EnquiryCreate, background_tasks: BackgroundTasks
     doc = input.model_dump()
     doc["read"] = False
     doc["created_at"] = datetime.now(timezone.utc)
-    result = await db.enquiries.insert_one(doc)
+    result = await db.enquiries.insert_one(encrypt_fields(doc, ENQUIRY_ENCRYPTED_FIELDS))
     doc["id"] = str(result.inserted_id)
     doc.pop("_id", None)
     background_tasks.add_task(notify_enquiry, {**doc, "created_at": doc["created_at"].isoformat()})
@@ -416,7 +425,14 @@ async def admin_stats(user: dict = Depends(require_admin)):
 @api_router.get("/admin/bookings")
 async def admin_bookings(user: dict = Depends(require_admin)):
     bookings = await db.bookings.find().sort("created_at", -1).to_list(500)
-    return [serialize(b) for b in bookings]
+    result = []
+    for booking in bookings:
+        decrypted = decrypt_fields(booking, BOOKING_ENCRYPTED_FIELDS)
+        if (decrypted.get("vehicle_plate") is None or decrypted.get("vehicle_plate") == "") and "mileage" in decrypted:
+            decrypted["vehicle_plate"] = decrypted["mileage"]
+        decrypted.pop("mileage", None)
+        result.append(serialize(decrypted))
+    return result
 
 
 @api_router.get("/admin/availability")
@@ -477,7 +493,7 @@ async def update_booking(booking_id: str, input: StatusUpdate, user: dict = Depe
 @api_router.get("/admin/enquiries")
 async def admin_enquiries(user: dict = Depends(require_admin)):
     enquiries = await db.enquiries.find().sort("created_at", -1).to_list(500)
-    return [serialize(e) for e in enquiries]
+    return [serialize(decrypt_fields(enquiry, ENQUIRY_ENCRYPTED_FIELDS)) for enquiry in enquiries]
 
 
 @api_router.patch("/admin/enquiries/{enquiry_id}")
@@ -589,6 +605,7 @@ async def seed_services():
 
 @app.on_event("startup")
 async def startup():
+    validate_encryption_key()
     await db.users.create_index("email", unique=True)
     await db.login_attempts.create_index("identifier")
     await db.availability_blocks.create_index("date", unique=True)

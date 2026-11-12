@@ -402,7 +402,10 @@ export default function AdminDashboard() {
                           <div className="text-sm text-slate-200">{b.name}</div>
                           <div className="font-mono text-[10px] text-slate-500 mt-0.5">{b.email} · {b.phone}</div>
                         </div>
-                        <div className="text-sm text-slate-400 min-w-[140px]">{b.vehicle_make} {b.vehicle_model} ({b.vehicle_year})</div>
+                        <div className="text-sm text-slate-400 min-w-[140px]">
+                          <div>{b.vehicle_make} {b.vehicle_model} ({b.vehicle_year})</div>
+                          <div className="font-mono text-[10px] text-slate-500 mt-0.5">Nr. înmatriculare: {b.vehicle_plate}</div>
+                        </div>
                         <div className="ml-auto flex items-center gap-3">
                       <span data-testid="admin-booking-status-badge" className={`font-mono text-[10px] uppercase tracking-[0.2em] border px-3 py-1.5 ${STATUS_COLORS[b.status]}`}>{STATUS_LABELS[b.status] || b.status}</span>
                       <select

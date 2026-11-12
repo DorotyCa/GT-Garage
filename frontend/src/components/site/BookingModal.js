@@ -29,7 +29,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
   const [blockedSlots, setBlockedSlots] = useState([]);
   const [unavailableDay, setUnavailableDay] = useState(false);
   const [availabilityLoaded, setAvailabilityLoaded] = useState(false);
-  const [vehicle, setVehicle] = useState({ make: "", model: "", year: "", mileage: "", notes: "" });
+  const [vehicle, setVehicle] = useState({ make: "", model: "", plate: "", year: "", notes: "" });
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
   const [confirmation, setConfirmation] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -93,7 +93,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
         vehicle_make: vehicle.make,
         vehicle_model: vehicle.model,
         vehicle_year: vehicle.year,
-        mileage: vehicle.mileage,
+        vehicle_plate: vehicle.plate,
         notes: vehicle.notes,
         name: contact.name,
         email: contact.email,
@@ -259,7 +259,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                         </div>
                         <div>
                           <label className={LABEL_CLS}>Număr înmatriculare</label>
-                          <input required value={vehicle.mileage} onChange={(e) => setVehicle({ ...vehicle, mileage: e.target.value })} placeholder="ex. SB 23 ABC" data-testid="booking-input-plate" className={INPUT_CLS} />
+                          <input required value={vehicle.plate} onChange={(e) => setVehicle({ ...vehicle, plate: e.target.value })} placeholder="ex. SB 23 ABC" data-testid="booking-input-plate" className={INPUT_CLS} />
                         </div>
                         <div>
                           <label className={LABEL_CLS}>Anul fabricației</label>
@@ -270,7 +270,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                         <label className={LABEL_CLS}>Note / Detalii suplimentare</label>
                         <textarea rows={3} value={vehicle.notes} onChange={(e) => setVehicle({ ...vehicle, notes: e.target.value })} placeholder="ex. Mențiuni despre jante, antifurt, starea tapițeriei sau alte detalii importante..." data-testid="booking-input-notes" className={`${INPUT_CLS} resize-none`} />
                       </div>
-                      <StepNav onBack={() => setStep(2)} onNext={() => setStep(4)} nextDisabled={!vehicle.make || !vehicle.model || !vehicle.mileage} nextTestId="booking-step3-next" />
+                      <StepNav onBack={() => setStep(2)} onNext={() => setStep(4)} nextDisabled={!vehicle.make || !vehicle.model || !vehicle.plate} nextTestId="booking-step3-next" />
                     </div>
                   )}
 
@@ -294,7 +294,7 @@ export const BookingModal = ({ open, onClose, presetService }) => {
                         <div><span className="text-slate-500">SERVICIU:</span> {service.name} ({formatServicePrice(service.price_from)})</div>
                         <div><span className="text-slate-500">PROGRAMARE:</span> {date} · {slot}</div>
                         <div><span className="text-slate-500">MAȘINĂ:</span> {vehicle.make} {vehicle.model} ({vehicle.year})</div>
-                        <div><span className="text-slate-500">NR. INMATRICULARE:</span> {vehicle.mileage}</div>
+                        <div><span className="text-slate-500">NR. INMATRICULARE:</span> {vehicle.plate}</div>
                       </div>
                       <div className="flex items-center justify-between pt-2">
                         <button onClick={() => setStep(3)} data-testid="booking-step4-back" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-400 hover:text-slate-100 transition-colors">

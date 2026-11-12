@@ -41,7 +41,43 @@ EMERGENT_EMAIL_KEY=replace-with-email-integration-key
 OWNER_EMAIL=admin@example.com
 ```
 
-`MONGO_URL`, `DB_NAME`, `JWT_SECRET`, `ADMIN_PASSWORD`, `EMAIL_FROM_NAME` și `EMERGENT_EMAIL_KEY` sunt necesare pentru funcționarea configurației curente. `OWNER_EMAIL` este opțional; fără el nu se trimit notificări administrative pentru mesaje și programări.
+`MONGO_URL`, `DB_NAME`, `JWT_SECRET`, `FIELD_ENCRYPTION_KEY`, `ADMIN_PASSWORD`, `EMAIL_FROM_NAME` și `EMERGENT_EMAIL_KEY` sunt necesare pentru funcționarea configurației curente. `OWNER_EMAIL` este opțional; fără el nu se trimit notificări administrative pentru mesaje și programări.
+
+### Criptarea câmpurilor sensibile
+
+Backendul criptează în MongoDB, cu Fernet, marca, modelul, numărul de înmatriculare, anul fabricației, e-mailul și telefonul din programări, precum și e-mailul și telefonul din mesajele de contact. Backendul folosește valorile lizibile pentru răspunsurile panoului de administrare și notificările necesare. Numele, mesajul liber și câmpul `vehicle` din solicitările de contact nu sunt incluse în această listă.
+
+Generează local cheia fără să o afișezi în terminal:
+
+```powershell
+python backend\generate_field_encryption_key.py
+```
+
+Scriptul adaugă `FIELD_ENCRYPTION_KEY` în `backend/.env` numai dacă nu există deja și refuză să înlocuiască o cheie existentă. Fișierul `.env` este exclus din Git. În producție, configurează aceeași cheie în managerul de secrete al mediului care rulează backendul — nu în frontend și nu în codul repository-ului. Pierderea sau schimbarea cheii fără decriptarea și recriptarea datelor face aceste câmpuri irecuperabile.
+
+Dacă cheia a fost expusă și nu există date criptate cu ea, o poți înlocui local fără să fie afișată:
+
+```powershell
+python backend\generate_field_encryption_key.py --rotate
+```
+
+Nu folosi `--rotate` dacă date au fost deja criptate cu cheia veche; ele trebuie mai întâi decriptate și recriptate cu cheia nouă.
+
+Pentru a cripta și datele salvate înainte de această modificare:
+
+1. Fă un backup verificat al bazei de date.
+2. Configurează `FIELD_ENCRYPTION_KEY` pentru backend și pentru procesul de migrare, folosind aceeași valoare.
+3. Publică versiunea nouă a backendului și frontendului, ca aplicația să cripteze noile înregistrări și să recunoască datele vechi.
+4. Din directorul proiectului, cu `MONGO_URL`, `DB_NAME` și cheia setate pentru baza de date țintă, rulează mai întâi simularea:
+   ```powershell
+   python backend\migrate_sensitive_data.py
+   ```
+5. Dacă numărul de documente raportat este cel așteptat și backupul este disponibil, aplică migrarea:
+   ```powershell
+   python backend\migrate_sensitive_data.py --apply
+   ```
+
+Migrarea este reluabilă și mută vechiul câmp `mileage` al programărilor în `vehicle_plate`. Păstrează cheia în siguranță împreună cu backupurile; nu o schimba și nu o pierde.
 
 Parola admin trebuie să aibă între 12 și 72 de octeți UTF-8. La pornire, backendul setează parola contului admin din `ADMIN_PASSWORD`; schimbarea valorii din fișier schimbă parola la următoarea pornire. Folosește o parolă aleatorie, unică și păstreaz-o într-un manager de parole.
 
